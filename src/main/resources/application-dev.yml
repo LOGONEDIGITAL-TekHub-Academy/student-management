@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/edu_tech_flow
+    username: root
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl_auto: update
+    show_sql: true
+    properties:
+      hibernate:
+        format-sql: true
