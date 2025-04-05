@@ -3,7 +3,7 @@ services:
   # PostgreSQL
   # ---------------------------
   postgres:
-    container_name: postgres-sql-student-management
+    container_name: postgres-sql-edu-tech-flow
     image: postgres:12.3-alpine
     environment:
       POSTGRES_USER: root
