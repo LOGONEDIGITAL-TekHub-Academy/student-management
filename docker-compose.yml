@@ -1,6 +1,7 @@
 services:
   # ---------------------------
   # PostgreSQL
+
   # ---------------------------
   postgres:
     container_name: postgres-sql-edu-tech-flow
