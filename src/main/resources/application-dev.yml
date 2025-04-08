@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/edu_tech_flow
+    url: jdbc:postgresql://localhost:5432/student_management_db
     username: root
     password: root
     driver-class-name: org.postgresql.Driver
@@ -11,6 +11,23 @@ spring:
     properties:
       hibernate:
         format-sql: true
+mail:
+  host: localhost
+  port: 1025
+  # Remove username/password if MailDev doesn't need auth
+  # username: mta
+  # password: mta
+  properties:
+    mail:
+      smtp:
+        trust: "*"
+      auth: false  # Disable auth unless you configured MailDev with credentials
+      starttls:
+        enable: false  # MailDev usually doesn't support TLS in local dev
+      connectiontimeout: 5000
+      timeout: 3000
+      writetimeout: 5000
+
 application:
   security:
     jwt:

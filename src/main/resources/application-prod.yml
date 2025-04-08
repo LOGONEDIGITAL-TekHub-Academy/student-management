@@ -1,17 +1,35 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/edu_tech_flow
+    url: jdbc:postgresql://localhost:5432/student_management_db
     username: root
     password: root
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl_auto: update
-    show_sql: false
+    show_sql: true
     properties:
       hibernate:
         format-sql: true
-
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: tpkdmta@gmail.com
+    password: gujjhsmjknbgygoo
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+            trust: "*"
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+        debug: true
+        starttls:
+          enable: true
+    protocol: smtp
 application:
   security:
     jwt:

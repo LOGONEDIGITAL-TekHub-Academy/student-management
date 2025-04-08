@@ -10,17 +10,20 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class EmailService {
 
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
+
+    public EmailService(JavaMailSender mailSender, SpringTemplateEngine templateEngine) {
+        this.mailSender = mailSender;
+        this.templateEngine = templateEngine;
+    }
 
     @Async
     public void sendValidationEmail(
