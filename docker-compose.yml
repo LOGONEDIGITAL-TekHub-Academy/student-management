@@ -3,26 +3,26 @@ services:
   # PostgreSQL
   # ---------------------------
   postgres:
-    container_name: postgres-sql-edu-tech-flow
+    container_name: postgres-sql-student-management
     image: postgres:12.3-alpine
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       PGDATA: /var/lib/postgresql/data
-      POSTGRES_DB: edu_tech_flow
+      POSTGRES_DB: student_management_db
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
-      - spring-masterclass
+      - spring-student-management
     restart: unless-stopped
   # ---------------------------
   # PGADMIN
   # ---------------------------
   pgadmin:
     image: dpage/pgadmin4:4.23
-    container_name: pgadmin-edu-tech-flow
+    container_name: pgadmin-student-management
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
       PGADMIN_DEFAULT_PASSWORD: password
@@ -35,19 +35,19 @@ services:
     depends_on:
       - postgres
     networks:
-      - spring-masterclass
+      - spring-masterclass-student-management
   # ---------------------------
   # Mail Dev
   # ---------------------------
   mail-dev:
-    container_name: mail-dev-edu-tech-flow
+    container_name: mail-dev-student-management
     image: maildev/maildev
     ports:
       - "1080:1080"
       - "1025:1025"
 
 networks:
-  spring-masterclass:
+  spring-masterclass-student-management:
     driver: bridge
 
 volumes:
