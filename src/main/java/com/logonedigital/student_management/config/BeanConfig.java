@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Properties;
+
 @Configuration
 public class BeanConfig {
 
@@ -39,9 +41,27 @@ public class BeanConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+/*    @Bean
     public JavaMailSender mailSender() {
         return new JavaMailSenderImpl();
-    }
+    }*/
+@Bean
+public JavaMailSender javaMailSender() {
+
+    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+    mailSender.setHost("localhost");
+    mailSender.setPort(1025);
+
+    // No auth needed for MailDev
+    mailSender.setUsername(""); // Leave empty
+    mailSender.setPassword(""); // Leave empty
+
+    Properties props = mailSender.getJavaMailProperties();
+    props.put("mail.smtp.auth", "false");
+    props.put("mail.smtp.starttls.enable", "false");
+    props.put("mail.debug", "true"); // For debugging
+
+    return mailSender;
+}
 
 }
