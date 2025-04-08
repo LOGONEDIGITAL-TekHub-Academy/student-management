@@ -1,6 +1,7 @@
 package com.logonedigital.student_management.auth;
 
 import com.logonedigital.student_management.common.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,10 +19,17 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse> register(@RequestBody RegistrationRequest request) {
+    public ResponseEntity<ApiResponse> register(@RequestBody @Valid RegistrationRequest request) {
         service.register(request);
         return ResponseEntity.ok(new ApiResponse("Successfully registered user", null));
     }
 
+    @PostMapping("/authenticate")
+    public ResponseEntity<ApiResponse> authenticate(
+            @RequestBody @Valid AuthenticationRequest request
+    ){
+        AuthenticationResponse response = service.authenticate(request);
+        return ResponseEntity.ok(new ApiResponse("Successfully authenticated", response));
+    }
 
 }
