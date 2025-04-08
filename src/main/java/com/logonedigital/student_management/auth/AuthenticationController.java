@@ -23,4 +23,5 @@ public class AuthenticationController {
         return ResponseEntity.ok(new ApiResponse("Successfully registered user", null));
     }
 
+
 }

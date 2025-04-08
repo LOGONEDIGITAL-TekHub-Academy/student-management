@@ -14,5 +14,5 @@ spring:
 application:
   security:
     jwt:
-      secret-key: 36541236987412589632587412563214569874563211mySecretKeyGenerator78
+      secret-key: rgoiregoieronreougbreibiurebiuerboîtrnoînrtiboitrniohrthtrh
       expiration: 86400000
