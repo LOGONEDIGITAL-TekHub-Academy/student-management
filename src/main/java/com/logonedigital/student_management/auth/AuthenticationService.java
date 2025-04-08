@@ -3,6 +3,7 @@ package com.logonedigital.student_management.auth;
 
 import com.logonedigital.student_management.user.Role;
 import com.logonedigital.student_management.user.User;
+import com.logonedigital.student_management.user.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

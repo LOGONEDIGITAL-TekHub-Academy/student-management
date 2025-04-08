@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/edu_tech_flow
+    username: root
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl_auto: update
+    show_sql: false
+    properties:
+      hibernate:
+        format-sql: true
+
+application:
+  security:
+    jwt:
+      secret-key: 36541236987412589632587412563214569874563211mySecretKeyGenerator78
+      expiration: 86400000
