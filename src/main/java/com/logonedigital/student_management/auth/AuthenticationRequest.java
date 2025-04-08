@@ -1,22 +1,11 @@
 package com.logonedigital.student_management.auth;
 
-import jakarta.validation.constraints.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
-@Getter
-@Setter
-@Builder
-public class RegistrationRequest {
-
-    @NotEmpty(message = "Firstname is mandatory")
-    @NotBlank(message = "Firstname is mandatory")
-    private String firstname;
-
-    @NotEmpty(message = "Lastname is mandatory")
-    @NotBlank(message = "Lastname is mandatory")
-    private String lastname;
+public class AuthenticationRequest {
 
     @NotEmpty(message = "Email is mandatory")
     @NotBlank(message = "Email is mandatory")
@@ -27,22 +16,6 @@ public class RegistrationRequest {
     @NotBlank(message = "Password is mandatory")
     @Size(min = 8, message = "Password should be 8 characters minimum")
     private String password;
-
-    public @NotEmpty(message = "Firstname is mandatory") @NotBlank(message = "Firstname is mandatory") String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(@NotEmpty(message = "Firstname is mandatory") @NotBlank(message = "Firstname is mandatory") String firstname) {
-        this.firstname = firstname;
-    }
-
-    public @NotEmpty(message = "Lastname is mandatory") @NotBlank(message = "Lastname is mandatory") String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(@NotEmpty(message = "Lastname is mandatory") @NotBlank(message = "Lastname is mandatory") String lastname) {
-        this.lastname = lastname;
-    }
 
     public @NotEmpty(message = "Email is mandatory") @NotBlank(message = "Email is mandatory") @Email(message = "Email not well formatted") String getEmail() {
         return email;
