@@ -3,6 +3,6 @@ spring:
     active: dev
   application:
     name: student-management
-  server:
-    servlet:
-      context-path: /api/v1/
+server:
+  servlet:
+    context-path: /api/v1/
