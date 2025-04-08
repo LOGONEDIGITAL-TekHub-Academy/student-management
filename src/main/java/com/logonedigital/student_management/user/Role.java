@@ -8,7 +8,7 @@ public enum Role {
     ROLE_TEACHER("TEACHER"),
     ROLE_ADMIN("ADMIN");
 
-    private Role(String role) {
+    Role(String role) {
 
     }
 }
