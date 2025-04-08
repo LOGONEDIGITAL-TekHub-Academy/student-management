@@ -1,3 +1,9 @@
 spring:
   profiles:
     active: dev
+  application:
+    name: student-managment
+
+server:
+  servlet:
+    context-path: /api/v1/

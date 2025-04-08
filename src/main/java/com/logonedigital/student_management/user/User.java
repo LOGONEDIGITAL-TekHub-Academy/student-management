@@ -2,7 +2,10 @@ package com.logonedigital.student_management.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -94,4 +97,13 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime creatdDate;
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    private LocalDateTime lastModifiedDate;
 }

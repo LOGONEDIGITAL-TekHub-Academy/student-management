@@ -4,7 +4,7 @@ import com.logonedigital.student_management.common.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/v1/auth")
+@RequestMapping("auth")
 
 @RestController
 public class AuthenticationController {
@@ -21,5 +21,7 @@ public class AuthenticationController {
         authenticationService.register(registrationRequest);
         return ResponseEntity.ok(new ApiResponse("ok",null));
     }
+
+
 
 }
