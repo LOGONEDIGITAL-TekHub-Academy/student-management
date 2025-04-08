@@ -15,7 +15,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - spring-student-management
+      - spring-masterclass-student-management
     restart: unless-stopped
   # ---------------------------
   # PGADMIN
