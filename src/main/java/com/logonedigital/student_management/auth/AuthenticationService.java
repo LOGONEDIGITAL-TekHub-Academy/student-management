@@ -1,10 +1,11 @@
 package com.logonedigital.student_management.auth;
 
 
+import com.logonedigital.student_management.email.EmailService;
+import com.logonedigital.student_management.email.EmailTemplateName;
 import com.logonedigital.student_management.security.JwtService;
-import com.logonedigital.student_management.user.Role;
-import com.logonedigital.student_management.user.User;
-import com.logonedigital.student_management.user.UserRepository;
+import com.logonedigital.student_management.user.*;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,25 +13,31 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Set;
 
 @Service
 public class AuthenticationService {
-
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final TokenRepository tokenRepository;
+    private final EmailService emailService;
 
-    public AuthenticationService(PasswordEncoder passwordEncoder, UserRepository userRepository, AuthenticationManager authenticationManager, JwtService jwtService) {
+
+    public AuthenticationService(PasswordEncoder passwordEncoder, UserRepository userRepository, AuthenticationManager authenticationManager, JwtService jwtService, TokenRepository tokenRepository, EmailService emailService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.tokenRepository = tokenRepository;
+        this.emailService = emailService;
     }
 
-    public void register(RegistrationRequest request) {
+    public void register(RegistrationRequest request) throws MessagingException {
 //
 //        //Builder User Info
 //        var user = User.builder()
@@ -58,6 +65,42 @@ public class AuthenticationService {
         userRepository.save(user);
         //send email for activation account
         //TODO Send Verification Validation Email
+
+        this.sendValidationCodeByEmail(user);
+    }
+
+    private void sendValidationCodeByEmail(User user) throws MessagingException {
+        var activationCode = this.generateAndSaveActivationCode(user);
+        //send mail
+        emailService.sendValidationEmail(
+                user.getEmail(),
+                user.fullName(),
+                EmailTemplateName.ACTIVATE_ACCOUNT,
+                "",
+                activationCode,
+                "Account activation"
+        );
+    }
+
+    private String generateAndSaveActivationCode(User user) {
+        String activationCode = this.generateActivationCode();
+        var token = new Token();
+        token.setToken(activationCode);
+        token.setUser(user);
+        token.setCreatedAt(LocalDateTime.now());
+        token.setExpiresAt(LocalDateTime.now().plusMinutes(15));
+        this.tokenRepository.save(token);
+        return activationCode;
+    }
+
+    private String generateActivationCode() {
+        String characters = "0123456789";
+        StringBuilder activationCode = new StringBuilder();
+        SecureRandom secureRandom = new SecureRandom();
+        for (int i = 0; i < 6; i++) {
+            activationCode.append(characters.charAt(secureRandom.nextInt(characters.length())));
+        }
+        return activationCode.toString();
     }
 
     public AuthenticationResponse authenticate(@Valid AuthenticationRequest request) {
@@ -90,5 +133,8 @@ public class AuthenticationService {
 
         // pour builder
         //return AuthenticationResponse.builder().token(jwt).build();
+    }
+
+    public void activateAccount(String token) {
     }
 }
