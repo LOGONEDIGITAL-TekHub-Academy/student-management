@@ -47,6 +47,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+		<!--Dépendance Pour PDF-->
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.13.2</version>
+		</dependency>
 		<!--Les dépendances JWT ajoutées-->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>

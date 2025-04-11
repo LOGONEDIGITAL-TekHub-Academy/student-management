@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulletin de Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #777;
+        }
+        .attachment-info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Bulletin de Notes</h1>
+        <p th:text="'Période : ' + ${month} + ' ' + ${year}"></p>
+    </div>
+
+    <div class="content">
+        <p>Bonjour <span th:text="${recipientName}"></span>,</p>
+
+        <p>Vous trouverez ci-joint votre bulletin de notes pour la période <span th:text="${month} + ' ' + ${year}"></span>.</p>
+
+        <p>Ce bulletin contient :</p>
+
+        <ul>
+            <li>Vos notes par matière</li>
+            <li>Votre moyenne générale</li>
+            <li>Les appréciations des enseignants</li>
+            <li>Les informations importantes pour le trimestre suivant</li>
+        </ul>
+
+        <div class="attachment-info">
+            <p><strong>Fichier joint :</strong> <span th:text="${reportName}"></span></p>
+            <p>Format : PDF (nécessite Adobe Acrobat Reader)</p>
+        </div>
+
+        <p>Pour toute question concernant vos résultats, veuillez contacter :</p>
+        <p><strong><span th:text="${contactPerson}"></span></strong></p>
+        <p>Email : <span th:text="${contactEmail}"></span></p>
+        <p>Téléphone : <span th:text="${contactPhone}"></span></p>
+
+        <p>Cordialement,</p>
+        <p>L'équipe pédagogique</p>
+        <p th:text="${schoolName}"></p>
+    </div>
+
+    <div class="footer">
+        <p>Ceci est un message automatique. Merci de ne pas y répondre directement.</p>
+        <p>© <span th:text="${year}"></span> <span th:text="${schoolName}"></span>. Tous droits réservés.</p>
+    </div>
+</div>
+</body>
+</html>

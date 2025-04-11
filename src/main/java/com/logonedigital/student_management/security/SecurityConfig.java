@@ -31,9 +31,12 @@ public class SecurityConfig {
         return http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req -> req.requestMatchers("/auth/**","/auth/authenticate").permitAll()
+                .authorizeHttpRequests(req -> req.requestMatchers(
+                        "/auth/**").permitAll()
                                 .anyRequest().authenticated()
                 )
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(new AuthenticationEntryPointImpl()))
+                .exceptionHandling(exception -> exception.accessDeniedHandler(new AccessDeniedHandlerImpl()))
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

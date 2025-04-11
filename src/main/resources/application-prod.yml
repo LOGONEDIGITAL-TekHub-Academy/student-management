@@ -13,7 +13,7 @@ spring:
         format-sql: true
   mail:
     host: smtp.gmail.com
-    port: 465
+    port: 465 #587
     username: tpkdmta@gmail.com
     password: gujjhsmjknbgygoo
     properties:
@@ -31,6 +31,8 @@ spring:
           enable: true
     protocol: smtp
 application:
+  file:
+    reports-dir: reports
   security:
     jwt:
       secret-key: 36541236987412589632587412563214569874563211mySecretKeyGenerator78

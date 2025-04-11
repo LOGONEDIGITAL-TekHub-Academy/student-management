@@ -1,8 +1,9 @@
 package com.logonedigital.student_management.email;
 
+import com.logonedigital.student_management.student.Student;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,12 +29,8 @@ public class EmailService {
 
     @Async
     public void sendValidationEmail(
-            String to,
-            String username,
-            EmailTemplateName emailTemplate,
-            String confirmationUrl,
-            String activationCode,
-            String subject
+            String to, String username, EmailTemplateName emailTemplate,
+            String confirmationUrl, String activationCode, String subject
     ) throws MessagingException {
 
         String templateName;
@@ -67,5 +65,17 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    public void sendReport(Student student, String filePath) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
+        helper.setTo(student.getEmail());
+        helper.setSubject("Votre Bulletin de Notes");
+        helper.setText("Cher " + student.fullName() + ",\n\nVeuillez trouver ci-joint votre bulletin de notes.");
+
+        FileSystemResource file = new FileSystemResource(new File(filePath));
+        helper.addAttachment("Bulletin_" + student.getMatricule() + ".pdf", file);
+
+        mailSender.send(message);
+    }
 }

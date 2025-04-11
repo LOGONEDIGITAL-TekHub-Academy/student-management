@@ -1,6 +1,6 @@
 package com.logonedigital.student_management.auth;
 
-import com.logonedigital.student_management.common.ApiResponse;
+import com.logonedigital.student_management.common.dto.ApiResponse;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +31,11 @@ public class AuthenticationController {
     }
 
     @GetMapping("/activate-account")
-    public void confirm(
+    public ResponseEntity<ApiResponse> confirm(
             @RequestParam String token
     ) throws MessagingException {
         service.activateAccount(token);
+        return ResponseEntity.ok(new ApiResponse("Successfully activated account", null));
     }
 
 

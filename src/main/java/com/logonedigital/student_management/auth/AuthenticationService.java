@@ -19,7 +19,6 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.UUID;
 
 @Service
 public class AuthenticationService {
@@ -119,13 +118,14 @@ public class AuthenticationService {
         return AuthenticationResponse.builder().token(jwt).build();
     }
 
-    public void activateAccount(String activationToken) {
-        //chercher le token et verify if token is valid
+    public void activateAccount(String activationToken) throws MessagingException {
+        //cherche le token et verify if token is valid
         Token savedToken = tokenRepository.findByToken(activationToken)
                 .orElseThrow(()->new TokenNotValidException("Token not found"));
         if(LocalDateTime.now().isAfter(savedToken.getExpiresAt()))
         {
             //TODO send new activationToken via mail
+            this.sendValidationCodeByEmail(savedToken.getUser());
             throw new TokenNotValidException("Activation TOKEN EXPIRED. New Token has been send to the same adresse");
         }
         //activate account

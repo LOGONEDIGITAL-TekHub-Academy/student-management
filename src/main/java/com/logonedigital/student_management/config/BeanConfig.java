@@ -2,6 +2,8 @@ package com.logonedigital.student_management.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,27 +43,46 @@ public class BeanConfig {
         return new BCryptPasswordEncoder();
     }
 
-/*    @Bean
-    public JavaMailSender mailSender() {
-        return new JavaMailSenderImpl();
-    }*/
-@Bean
-public JavaMailSender javaMailSender() {
+    @Bean
+    @Profile("dev") // Only activates when `spring.profiles.active=dev`
+    public JavaMailSender devMailSender() {
 
-    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-    mailSender.setHost("localhost");
-    mailSender.setPort(1025);
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("localhost");
+        mailSender.setPort(1025);
 
-    // No auth needed for MailDev
-    mailSender.setUsername(""); // Leave empty
-    mailSender.setPassword(""); // Leave empty
+        // No auth needed for MailDev
+        mailSender.setUsername("");
+        mailSender.setPassword("");
 
-    Properties props = mailSender.getJavaMailProperties();
-    props.put("mail.smtp.auth", "false");
-    props.put("mail.smtp.starttls.enable", "false");
-    props.put("mail.debug", "true"); // For debugging
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.smtp.auth", "false");
+        props.put("mail.smtp.starttls.enable", "false");
+        props.put("mail.debug", "true"); // For debugging
 
-    return mailSender;
-}
+        return mailSender;
+    }
+
+    @Bean
+    @Profile("prod")  // Only activates when `spring.profiles.active=prod`
+    public JavaMailSender prodMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(465);
+        mailSender.setUsername("${spring.mail.username}");  // Injected from application-prod.yml
+        mailSender.setPassword("${spring.mail.password}");
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+        return mailSender;
+    }
+
+    @Bean
+    public AuditorAware<Integer> auditorAware(){
+        return new ApplicationAuditAware();
+    }
 
 }
