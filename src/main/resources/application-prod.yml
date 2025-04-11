@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/student_management_db
-    username: root
-    password: root
+    url: jdbc:postgresql://${DATABASE_URL:localhost}:5432/student_management_db
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:

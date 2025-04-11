@@ -47,6 +47,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+		<!---->
 		<!--Dépendance Pour PDF-->
 		<dependency>
 			<groupId>com.itextpdf</groupId>

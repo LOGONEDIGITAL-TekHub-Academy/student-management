@@ -59,7 +59,7 @@ public class PdfService {
         table.addCell(cell3);
         // Remplissage du tableau
         for (Grade note : grades) {
-            table.addCell("note.getCourse().getTitle()");
+            table.addCell(note.getCourse().getTitle());
             table.addCell(String.valueOf(note.getValue()));
             table.addCell(note.getAppreciation());
         }

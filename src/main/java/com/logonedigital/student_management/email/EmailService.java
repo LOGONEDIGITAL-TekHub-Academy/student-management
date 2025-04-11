@@ -13,6 +13,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,6 +73,49 @@ public class EmailService {
         helper.setTo(student.getEmail());
         helper.setSubject("Votre Bulletin de Notes");
         helper.setText("Cher " + student.fullName() + ",\n\nVeuillez trouver ci-joint votre bulletin de notes.");
+
+        FileSystemResource file = new FileSystemResource(new File(filePath));
+        helper.addAttachment("Bulletin_" + student.getMatricule() + ".pdf", file);
+
+        mailSender.send(message);
+    }
+
+    public void sendReportWithTemplate(
+            Student student, String filePath,
+            EmailTemplateName emailTemplate
+    ) throws MessagingException {
+
+        String templateName;
+        if (emailTemplate == null) {
+            templateName = "report";
+        }else {
+            templateName = emailTemplate.getName();
+        }
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(
+                message,
+                MimeMessageHelper.MULTIPART_MODE_MIXED,
+                StandardCharsets.UTF_8.name()
+        );
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("month", LocalDateTime.now().getMonth().toString());
+        properties.put("year", LocalDateTime.now().getYear());
+        properties.put("recipientName", student.fullName());
+        properties.put("contactPerson", "Le Responsable");
+        properties.put("contactEmail", "lta-contact@gmail.com");
+        properties.put("schoolName", "LOGONEDIGITAL TEKHUB ACADEMY");
+        properties.put("reportName", "Bulletin_" + student.getMatricule() + ".pdf");
+
+        Context context =  new Context();
+        context.setVariables(properties);
+
+        helper.setTo(student.getEmail());
+        helper.setSubject("Votre Bulletin de Notes");
+
+        String template = templateEngine.process(templateName, context);
+        helper.setText(template, true);
 
         FileSystemResource file = new FileSystemResource(new File(filePath));
         helper.addAttachment("Bulletin_" + student.getMatricule() + ".pdf", file);

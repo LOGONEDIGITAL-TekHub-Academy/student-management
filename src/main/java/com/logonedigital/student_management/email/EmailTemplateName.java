@@ -2,6 +2,7 @@ package com.logonedigital.student_management.email;
 
 import lombok.Getter;
 
+@Getter
 public enum EmailTemplateName {
     ACTIVATE_ACCOUNT("activate_account"),
     REPORT("report")
@@ -13,7 +14,4 @@ public enum EmailTemplateName {
 
     private final String name;
 
-    public String getName() {
-        return name;
-    }
 }

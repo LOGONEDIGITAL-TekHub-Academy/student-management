@@ -3,6 +3,7 @@ package com.logonedigital.student_management.student.report;
 import com.itextpdf.text.*;
 import com.logonedigital.student_management.common.PdfService;
 import com.logonedigital.student_management.email.EmailService;
+import com.logonedigital.student_management.email.EmailTemplateName;
 import com.logonedigital.student_management.student.Student;
 import com.logonedigital.student_management.student.StudentRepository;
 import com.logonedigital.student_management.student.grade.Grade;
@@ -35,6 +36,7 @@ public class ReportService {
         String filePath = pdfService.generateReportPdf(student, grades);
 
         emailService.sendReport(student, filePath);
+        emailService.sendReportWithTemplate(student, filePath, EmailTemplateName.REPORT);
 
         return filePath;
     }
