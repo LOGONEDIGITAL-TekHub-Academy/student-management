@@ -33,7 +33,7 @@ public class ReportService {
 
         List<Grade> grades = gradeRepository.findByStudentId(studentId);
 
-        String filePath = pdfService.generateReportPdf(student, grades);
+        String filePath = pdfService.generateBulletin(student, grades);
 
         emailService.sendReport(student, filePath);
         emailService.sendReportWithTemplate(student, filePath, EmailTemplateName.REPORT);

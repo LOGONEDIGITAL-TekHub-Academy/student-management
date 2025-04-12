@@ -9,7 +9,7 @@ public class CourseDTO {
     private Integer id;
 
     @NotBlank(message = "The title is required")
-    @Size(max = 100, message = "Not above 100 characters")
+    @Size(max = 50, message = "Not above 100 characters")
     private String title;
 
     @Size(max = 500, message = "Not above 500 characters")

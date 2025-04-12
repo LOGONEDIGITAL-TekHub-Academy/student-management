@@ -3,13 +3,15 @@ FROM eclipse-temurin:17-jdk-jammy as builder
 WORKDIR /app
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
+RUN mvn dependency:go-offline
 COPY src ./src
-RUN ./mvnw package -DskipTests
+RUN mvn clean package -DskipTests
 
 # Run stage
 FROM eclipse-temurin:17-jre-jammy
+#define few thhings
 WORKDIR /app
-COPY --from=builder /app/target/*.jar app.jar
+COPY --from=builder /build/target/book-network-*.jar /app/
+
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

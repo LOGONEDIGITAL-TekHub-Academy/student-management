@@ -15,6 +15,8 @@ public record StudentDTO(
         @NotEmpty(message = "Phone is mandatory")
         @NotBlank(message = "Phone is mandatory")
         String phone,
+        @NotEmpty(message = "Matricule is mandatory")
+        @NotBlank(message = "Matricule is mandatory")
         String matricule,
         @NotEmpty(message = "Email is mandatory")
         @NotBlank(message = "Email is mandatory")

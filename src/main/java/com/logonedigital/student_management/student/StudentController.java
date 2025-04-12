@@ -20,6 +20,7 @@ public class StudentController {
     public ResponseEntity<ApiResponse> save(
             @RequestBody @Valid StudentDTO request
     ) {
+        //TODO Exception when ROLE_STUDENT Try to add Other Student
         var studentDto = studentService.save(request);
         return ResponseEntity.ok(new ApiResponse("Saved successfully", studentDto));
     }
@@ -35,6 +36,7 @@ public class StudentController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{studentId}")
     public ResponseEntity<ApiResponse> delete(
         @PathVariable Integer studentId
