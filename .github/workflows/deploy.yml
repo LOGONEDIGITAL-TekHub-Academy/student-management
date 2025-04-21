@@ -1,44 +1,51 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Github Actions CI/CD flow
-
+name: CI/CD Pipeline
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 env:
+  JAVA_VERSION: '17'
+  JAVA_DISTRIBUTION: 'temurin'
+  DOCKER_REGISTRY: 'docker.io'
+  DOCKER_IMAGE: 'dockermintoua/sms-api'
+  DOCKER_TAG: 'latest'
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
   build:
-
+    name: Build and Test
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 17
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure Java Environment
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
           cache: maven
-      - name: Build with Maven
+
+      - name: Build Application
         run: mvn clean install
-      - name: Build & Push Docker Image
+
+  docker:
+    name: Build and Push Docker Image
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build and Push Docker Image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: dockermintoua/sms-api
-          tags: latest
-          registry: docker.io
+          image: ${{ env.DOCKER_IMAGE }}
+          tags: ${{ env.DOCKER_TAG }}
+          registry: ${{ env.DOCKER_REGISTRY }}
           dockerfile: Dockerfile
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_PASSWORD }}
