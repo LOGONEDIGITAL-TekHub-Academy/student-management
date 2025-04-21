@@ -3,3 +3,5 @@
 **/.mvn
 **/*.iml
 **/node_modules
+**/.github
+**/.idea

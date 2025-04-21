@@ -1,8 +1,9 @@
 spring:
   profiles:
-    active: dev
+    active: prod
   application:
     name: student-management
 server:
   servlet:
     context-path: /api/v1/
+  port: 8081

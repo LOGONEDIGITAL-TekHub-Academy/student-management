@@ -3,7 +3,7 @@ services:
   # PostgreSQL
   # ---------------------------
   postgres:
-    container_name: postgres-sql-student-management
+    container_name: postgres-sms
     image: postgres:12.3-alpine
     environment:
       POSTGRES_USER: root
@@ -11,18 +11,18 @@ services:
       PGDATA: /var/lib/postgresql/data
       POSTGRES_DB: student_management_db
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
-      - spring-masterclass-student-management
+      - spring-sms
     restart: unless-stopped
   # ---------------------------
   # PGADMIN
   # ---------------------------
   pgadmin:
-    image: dpage/pgadmin4:4.23
-    container_name: pgadmin-student-management
+    image: dpage/pgadmin4
+    container_name: pgadmin-sms
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
       PGADMIN_DEFAULT_PASSWORD: password
@@ -31,26 +31,35 @@ services:
     ports:
       - "15432:80"
     volumes:
-      - pgadmin:/var/lib/pgadmin
+      - pgadmin_data:/var/lib/pgadmin
     depends_on:
       - postgres
     networks:
-      - spring-masterclass-student-management
+      - spring-sms
   # ---------------------------
   # Mail Dev
   # ---------------------------
   mail-dev:
-    container_name: mail-dev-student-management
+    container_name: mail-dev-sms
     image: maildev/maildev
     ports:
       - "1080:1080"
       - "1025:1025"
+  sms-api:
+    container_name: sms-api
+    image: sms/sms:0.0.1
+    ports:
+      - 8081:8081
+    networks:
+      - spring-sms
+    depends_on:
+      - postgres
 
 networks:
-  spring-masterclass-student-management:
+  spring-sms:
     driver: bridge
 
 volumes:
-  postgres:
+  postgres_data:
     driver: local
-  pgadmin:
+  pgadmin_data:

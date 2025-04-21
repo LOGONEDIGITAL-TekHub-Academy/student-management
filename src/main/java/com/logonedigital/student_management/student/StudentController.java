@@ -15,7 +15,7 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ApiResponse> save(
             @RequestBody @Valid StudentDTO request
@@ -25,7 +25,7 @@ public class StudentController {
         return ResponseEntity.ok(new ApiResponse("Saved successfully", studentDto));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<PageResponse<StudentDTO>> findAll(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
@@ -36,7 +36,7 @@ public class StudentController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{studentId}")
     public ResponseEntity<ApiResponse> delete(
         @PathVariable Integer studentId
