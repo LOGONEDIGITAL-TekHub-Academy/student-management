@@ -24,7 +24,7 @@ ARG APP_VERSION=1.0.1
 WORKDIR /app
 
 # Copy the built JAR file from the build stage
-COPY --from=build /build/target/sms-api-*.jar /app/
+COPY --from=build /build/target/sms-api.jar sms-api.jar
 
 
 EXPOSE 8081
